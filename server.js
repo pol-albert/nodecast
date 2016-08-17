@@ -18,7 +18,7 @@ var playlist = readJsonPlaylist();
 localStorage.setItem('current', 0);
 
 var stopPrevious = function(){
-	var cmd = 'pkill -15 mpsyt';
+	var cmd = 'pkill -15 mplayer';
 	exec(cmd, function(error, stdout, stderr) {
 	});
 }
@@ -32,7 +32,7 @@ var echo = function(res, message) {
 	delete res;
 }
 
-var playRecursively = function(res) {
+var playRecursively = function(res, action) {
 
 
 	if(localStorage.getItem('stopped') == 1 ) {
@@ -49,11 +49,15 @@ var playRecursively = function(res) {
 		localStorage.setItem('current', 0);
 	}
 
+	if( typeof(action) !== 'undefined' ){
+		var json = {};
+		json.track = playlist[parseInt(localStorage.getItem('current'))]
+		json.action = typeof(action) !== 'undefined' ? action : '';
+		echo(res, JSON.stringify(json));
+	}
+
 	var cmd = 'mpsyt playurl '+playlist[parseInt(localStorage.getItem('current'))].id;
 	
-	// console.log('mpsyt playurl '+playlist[parseInt(localStorage.getItem('current'))].id);
-	// echo(res, JSON.stringify(playlist[parseInt(localStorage.getItem('current'))]));
-
 	exec(cmd, function(error, stdout, stderr) {
 
 		if (error && stderr.indexOf('Terminated') !== -1) {
@@ -84,32 +88,38 @@ var server = http.createServer(function(req, res) {
 	    		case 'next':
 					localStorage.setItem('current', parseInt(localStorage.getItem('current')) + 1);
 					stopPrevious();
-					echo(res, 'Next tune bro !');
+
 					if(localStorage.getItem('stopped') == 1) {
 						localStorage.setItem('stopped',0);
-						playRecursively(res);
+						playRecursively(res, 'next');
 					}
+
 	    			break;
 	    		case 'prev':
 					localStorage.setItem('current', parseInt(localStorage.getItem('current')) - 1);
 					stopPrevious();
-					echo(res, 'Previous track my lord');
+
 					if(localStorage.getItem('stopped') == 1) {
 						localStorage.setItem('stopped',0);
-						playRecursively(res);
+						playRecursively(res, 'prev');
 					}
+
 	    			break;
 	    		case 'stop':
 					localStorage.setItem('stopped',1);
 					stopPrevious();
-					echo(res, 'Stop ! hammer time');
+
+					var json = {"action":"stop"};
+					echo(res, JSON.stringify(json));
+
 	    			break;
 	    		case 'play':
 					localStorage.setItem('stopped',1);
 					stopPrevious();
+
 					localStorage.setItem('stopped',0);
-					playRecursively(res);
-					echo(res, 'Fight !');
+					playRecursively(res, 'play');
+
 	    			break;
 	    		default:
 	    			break;
