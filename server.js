@@ -18,7 +18,7 @@ var playlist = readJsonPlaylist();
 localStorage.setItem('current', 0);
 
 var stopPrevious = function(){
-	var cmd = 'pkill -15 mplayer';
+	var cmd = 'pkill -15 mpsyt';
 	exec(cmd, function(error, stdout, stderr) {
 	});
 }
@@ -34,6 +34,8 @@ var echo = function(res, message) {
 
 var playRecursively = function(res, action) {
 
+	console.log('Stopped : '+localStorage.getItem('stopped'));
+	console.log('current : '+localStorage.getItem('current'));
 
 	if(localStorage.getItem('stopped') == 1 ) {
 		return;
