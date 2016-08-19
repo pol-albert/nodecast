@@ -141,7 +141,8 @@ function makeRequest() {
 		$('.row.search').popover('show');
 		$('.popover .row').click(function(){
 			$.post('/add.php',{ytId:$(this).data('ytid'),name:$(this).data('name')});
-			$('.row.search').popover('destroy');		
+			$('.row.search').popover('destroy');	
+			$('#custom-search-input input').val('');	
 		})
 
 
