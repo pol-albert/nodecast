@@ -4,3 +4,66 @@
 .row.search {
 	
 }
+
+body .popover {
+	max-width: 100%;
+}
+
+.popover .thumb {
+	max-width:30%;
+	width: 204px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 4em;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 4em;
+  background-color: #f5f5f5;
+  text-align: center;
+}
+.footer .controls {
+	font-size: 1.5em;
+  	text-align: center;
+	line-height: 3em;
+}
+.footer .controls i{
+	display: inline-block;
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	border: 1px solid grey;
+	border-radius: 100%;
+  	text-align: center;
+}
+
+.footer .controls i:before{
+	position: relative;
+	bottom: 1px;
+	left: 1px;
+}
+
+.footer .controls i.glyphicon-step-backward:before{
+}
+
+.footer .controls i.glyphicon-play:before{
+}
+
+.footer .controls i.glyphicon-stop:before{
+	left: -1px;
+}
+
+.footer .controls i.glyphicon-step-forward:before{
+	left: -1px;
+}

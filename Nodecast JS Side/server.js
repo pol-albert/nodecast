@@ -5,7 +5,7 @@ var LocalStorage = require('node-localstorage').LocalStorage;
 
 exec('mpsyt set player mplayer');
 
-localStorage = new LocalStorage('./localStorage');
+localStorage = new LocalStorage('../Nodecast Php Side');
 
 var readJsonPlaylist = function() {
 	var data = require('fs').readFileSync('../Nodecast Php Side/playlist.json', 'utf8')
@@ -15,7 +15,7 @@ var readJsonPlaylist = function() {
 
 var playlist = readJsonPlaylist();
 
-localStorage.setItem('current', 0);
+localStorage.setItem('current.state', 0);
 
 var stopPrevious = function(){
 	var cmd = 'pkill -15 mpsyt';
@@ -34,28 +34,28 @@ var echo = function(res, message) {
 
 var playRecursively = function(res) {
 
-	console.log('Stopped : '+localStorage.getItem('stopped'));
-	console.log('current : '+localStorage.getItem('current'));
+	console.log('Stopped : '+localStorage.getItem('stopped.state'));
+	console.log('current : '+localStorage.getItem('current.state'));
 
-	if(localStorage.getItem('stopped') == 1 ) {
+	if(localStorage.getItem('stopped.state') == 1 ) {
 		return;
 	}
 	
 	// reload the playlist file here everytime
 	
-	if(parseInt(localStorage.getItem('current')) < 0) {
-		localStorage.setItem('current', playlist.length - 1);
+	if(parseInt(localStorage.getItem('current.state')) < 0) {
+		localStorage.setItem('current.state', playlist.length - 1);
 	}
 
-	if(typeof(playlist[parseInt(localStorage.getItem('current'))]) == 'undefined') {
-		localStorage.setItem('current', 0);
+	if(typeof(playlist[parseInt(localStorage.getItem('current.state'))]) == 'undefined') {
+		localStorage.setItem('current.state', 0);
 	}
 
 	// var json = {};
-	// json.track = playlist[parseInt(localStorage.getItem('current'))]
+	// json.track = playlist[parseInt(localStorage.getItem('current.state'))]
 	// echo(res, JSON.stringify(json));
 
-	var cmd = 'mpsyt playurl '+playlist[parseInt(localStorage.getItem('current'))].id;
+	var cmd = 'mpsyt playurl '+playlist[parseInt(localStorage.getItem('current.state'))].id;
 	
 	exec(cmd, function(error, stdout, stderr) {
 
@@ -63,7 +63,7 @@ var playRecursively = function(res) {
 
 		}
 		else {
-			localStorage.setItem( 'current', parseInt(localStorage.getItem('current')) + 1 );
+			localStorage.setItem( 'current.state', parseInt(localStorage.getItem('current.state')) + 1 );
 		}	
 
 		playRecursively(res);
@@ -85,32 +85,32 @@ var server = http.createServer(function(req, res) {
 	    case 'playlist':
     		switch(endpoint[2]) {
 	    		case 'next':
-					localStorage.setItem('stopped',1);
+					localStorage.setItem('stopped.state',1);
 					stopPrevious();
 
-					localStorage.setItem('current', parseInt(localStorage.getItem('current')) + 1);
+					localStorage.setItem('current.state', parseInt(localStorage.getItem('current.state')) + 1);
 					
-					localStorage.setItem('stopped',0);
+					localStorage.setItem('stopped.state',0);
 
 	    			break;
 	    		case 'prev':
-					localStorage.setItem('stopped',1);
+					localStorage.setItem('stopped.state',1);
 					stopPrevious();
 
-					localStorage.setItem('current', parseInt(localStorage.getItem('current')) - 1);
+					localStorage.setItem('current.state', parseInt(localStorage.getItem('current.state')) - 1);
 
-					localStorage.setItem('stopped',0);
+					localStorage.setItem('stopped.state',0);
 
 	    			break;
 	    		case 'stop':
-					localStorage.setItem('stopped',1);
+					localStorage.setItem('stopped.state',1);
 					stopPrevious();
 	    			break;
 	    		case 'play':
-					localStorage.setItem('stopped',1);
+					localStorage.setItem('stopped.state',1);
 					stopPrevious();
 
-					localStorage.setItem('stopped',0);
+					localStorage.setItem('stopped.state',0);
 					playRecursively(res);
 
 	    			break;
@@ -139,7 +139,7 @@ var server = http.createServer(function(req, res) {
 });
 
 console.log('Playlist player server launched');
-localStorage.setItem('stopped',0);
+localStorage.setItem('stopped.state',0);
 playRecursively();
 
 server.listen(8080);

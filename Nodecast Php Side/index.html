@@ -8,6 +8,7 @@
     <title>Nodecast</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady">  </script>
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -99,16 +100,20 @@
 		<div class="row playlist">
 			<div class="col-md-12">
 				<ul id="simpleList" class="list-group">
-				    <li class="list-group-item"></li>
-				    <li class="list-group-item"></li>
-				    <li class="list-group-item"></li>
-				    <li class="list-group-item"></li>
-				    <li class="list-group-item"></li>
 				</ul>
 			</div>
 		</div>
 
     </div> <!-- /container -->
+
+    <footer class="footer">
+      <div class="container controls">
+        <i class="glyphicon glyphicon-step-backward"></i>
+		<i class="glyphicon glyphicon-play"></i>
+		<i class="glyphicon glyphicon-stop"></i>
+        <i class="glyphicon glyphicon-step-forward"></i>
+      </div>
+    </footer>
 
 	<!-- Latest Sortable -->
 	<script src="/js/playlist.js"></script>
