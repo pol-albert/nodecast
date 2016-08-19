@@ -1,0 +1,24 @@
+{
+  "name": "nodecast",
+  "version": "0.0.1",
+  "description": "Prototyping a kind of Raspberry Based Chromecast-Audio-Like player",
+  "main": "server.js",
+  "dependencies": {
+    "node-localstorage": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodejs server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pol-albert/nodecast.git"
+  },
+  "author": "Paul ALBERT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pol-albert/nodecast/issues"
+  },
+  "homepage": "https://github.com/pol-albert/nodecast#readme"
+}
