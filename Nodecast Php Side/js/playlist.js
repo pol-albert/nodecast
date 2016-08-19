@@ -1,6 +1,9 @@
 // TODO : add cache for searches ? (check in chrome inspector if there isn't already a native cache)
 
 var createSortable = function() {
+	$('#simpleList .glyphicon-remove-circle').click(function(){			
+		$.post('/remove.php',{id:$(this).parent().data('id')});
+	})
 	document.sortable = Sortable.create(simpleList, {
 		onSort: function (evt) {
 	    	// send new order to server
@@ -39,10 +42,10 @@ var updatePlaylistTitles = function() {
 
 				$(data).each(function(i,e){
 					if(i != current){
-						$("#simpleList").append('<li class="list-group-item" data-ytId="'+e.ytId+'" data-id="'+e.id+'">'+e.name+'</li>');
+						$("#simpleList").append('<li class="list-group-item" data-ytId="'+e.ytId+'" data-id="'+e.id+'">'+e.name+'<i class="glyphicon glyphicon-remove-circle"></i></li>');
 					}
 					else {
-						$("#simpleList").append('<li class="list-group-item active" data-ytId="'+e.ytId+'" data-id="'+e.id+'">'+e.name+'</li>');
+						$("#simpleList").append('<li class="list-group-item active" data-ytId="'+e.ytId+'" data-id="'+e.id+'">'+e.name+'<i class="glyphicon glyphicon-remove-circle"></i></li>');
 					}
 				});
 

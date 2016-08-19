@@ -2,6 +2,15 @@
 	margin-bottom: 0px;
 }
 
+#simpleList .glyphicon-remove-circle {
+	color: darkgrey;
+	position: absolute;
+	right: 0.3em;
+	top: 0.7em;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
 #custom-search-input {
 	position: relative;
 }
