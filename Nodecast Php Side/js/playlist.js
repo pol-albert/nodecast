@@ -91,19 +91,25 @@ document.lastSearch = '';
 $.get('/js/ytDataV3ApiKey.key',function(ytDataV3ApiKey){
 	document.suggestTimeout = -1;
 	$('#custom-search-input input').on('change paste keyup click',function(evt){
-		if($(this).val() !== '' && $(this).val() !== document.lastSearch){
-			if(document.suggestTimeout != -1){
-				clearTimeout(document.suggestTimeout);
-				document.suggestTimeout = -1;
-			}
+		if($(this).val() !== ''){
+			$('#custom-search-input i').show();
+			if($(this).val() !== document.lastSearch){
+				if(document.suggestTimeout != -1){
+					clearTimeout(document.suggestTimeout);
+					document.suggestTimeout = -1;
+				}
 
-			document.suggestTimeout = setTimeout(function(){
-				$('.row.search').popover('destroy');
-			    gapi.client.setApiKey(ytDataV3ApiKey);
-			    gapi.client.load('youtube', 'v3', function() {
-			            makeRequest();
-			    });
-			},1500);
+				document.suggestTimeout = setTimeout(function(){
+					$('.row.search').popover('destroy');
+				    gapi.client.setApiKey(ytDataV3ApiKey);
+				    gapi.client.load('youtube', 'v3', function() {
+				            makeRequest();
+				    });
+				},1500);
+			}
+		}
+		else {
+			$('#custom-search-input i').hide();
 		}
 	});
 });
@@ -138,6 +144,13 @@ function makeRequest() {
 
 	})  
 }
+
+$('#custom-search-input i').click(function(){
+	$('#custom-search-input input').val('');
+	document.lastSearch = '';
+	$('.row.search').popover('destroy');
+	$(this).hide();
+})
 
 
 

@@ -1,8 +1,19 @@
 .navbar-default {
 	margin-bottom: 0px;
 }
-.row.search {
-	
+
+#custom-search-input {
+	position: relative;
+}
+
+#custom-search-input .glyphicon-remove-circle {
+	display: none;
+	position: absolute;
+	right: 0.3em;
+	top: 0.35em;
+	font-size: 2em;
+	z-index: 3;
+	color: darkgrey;
 }
 
 body .popover {
