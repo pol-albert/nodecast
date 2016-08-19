@@ -1,3 +1,5 @@
+// TODO : add cache for searches ? (check in chrome inspector if there isn't already a native cache)
+
 var createSortable = function() {
 	document.sortable = Sortable.create(simpleList, {
 		onSort: function (evt) {
@@ -84,10 +86,12 @@ $('.glyphicon-play').click(function(evt){
 	$('.glyphicon-stop').show();
 })
 
+document.lastSearch = '';
+
 $.get('/js/ytDataV3ApiKey.key',function(ytDataV3ApiKey){
 	document.suggestTimeout = -1;
 	$('#custom-search-input input').on('change paste keyup click',function(evt){
-		if($(this).val() !== ''){
+		if($(this).val() !== '' && $(this).val() !== document.lastSearch){
 			if(document.suggestTimeout != -1){
 				clearTimeout(document.suggestTimeout);
 				document.suggestTimeout = -1;
@@ -106,7 +110,7 @@ $.get('/js/ytDataV3ApiKey.key',function(ytDataV3ApiKey){
 
 function makeRequest() {
     var q = $('#custom-search-input input').val();
-    console.log(q);
+    document.lastSearch = q;
     var request = gapi.client.youtube.search.list({
         q: q,
         part: 'snippet', 
@@ -118,13 +122,13 @@ function makeRequest() {
         var htmlResults = "";
         $.each(srchItems, function(index, item) {               
             htmlResults += '<div class="row" data-ytid="'+item.id.videoId+'" data-name="'+item.snippet.title+'"><div class="col-md-4"><img id="thumb" src="'+item.snippet.thumbnails.default.url+'"></div><div class="col-md-8">' + item.snippet.title +  '</div></div><br/>';                      
-	    })  		
+	    })  	
 		$('.row.search').popover({
 			container:"body" ,
 			placement:"bottom" ,
 			content:htmlResults,
 			html: true
-		})
+		})	
 		$('.row.search').popover('show');
 		$('.popover .row').click(function(){
 			$.post('/add.php',{ytId:$(this).data('ytid'),name:$(this).data('name')});
