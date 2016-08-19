@@ -55,7 +55,7 @@ var playRecursively = function(res) {
 	// json.track = playlist[parseInt(localStorage.getItem('current.state'))]
 	// echo(res, JSON.stringify(json));
 
-	var cmd = 'mpsyt playurl '+playlist[parseInt(localStorage.getItem('current.state'))].id;
+	var cmd = 'mpsyt playurl '+playlist[parseInt(localStorage.getItem('current.state'))].ytId;
 	
 	exec(cmd, function(error, stdout, stderr) {
 

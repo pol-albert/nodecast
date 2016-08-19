@@ -84,40 +84,7 @@ $('.glyphicon-play').click(function(evt){
 	$('.glyphicon-stop').show();
 })
 
-
-function makeRequest() {
-    var q = $('#custom-search-input input').val();
-    console.log(q);
-    var request = gapi.client.youtube.search.list({
-        q: q,
-        part: 'snippet', 
-        maxResults: 20
-    });
-    request.execute(function(response)  {
-        // $('#results').empty()
-        var srchItems = response.result.items;                      
-        var htmlResults = "";
-        $.each(srchItems, function(index, item) {               
-            htmlResults += '<div class="row" data-ytId="'+item.id.videoId+'" data-name="'+item.snippet.title+'"><div class="col-md-4"><img id="thumb" src="'+item.snippet.thumbnails.default.url+'"></div><div class="col-md-8">' + item.snippet.title +  '</div></div><br/>';                      
-	    })  		
-		$('.row.search').popover({
-			container:"body" ,
-			placement:"bottom" ,
-			content:htmlResults,
-			html: true
-		})
-		$('.row.search').popover('show');
-		$('.popover .row').click(function(){
-			$.post('/add.php',{ytId:$(this).data('ytId'),name:$(this).data('name')});
-			$('.row.search').popover('destroy');		
-		})
-
-
-	})  
-}
-
 $.get('/js/ytDataV3ApiKey.key',function(ytDataV3ApiKey){
-
 	document.suggestTimeout = -1;
 	$('#custom-search-input input').on('change paste keyup click',function(evt){
 		if($(this).val() !== ''){
@@ -136,5 +103,37 @@ $.get('/js/ytDataV3ApiKey.key',function(ytDataV3ApiKey){
 		}
 	});
 });
+
+function makeRequest() {
+    var q = $('#custom-search-input input').val();
+    console.log(q);
+    var request = gapi.client.youtube.search.list({
+        q: q,
+        part: 'snippet', 
+        maxResults: 20
+    });
+    request.execute(function(response)  {
+        // $('#results').empty()
+        var srchItems = response.result.items;                      
+        var htmlResults = "";
+        $.each(srchItems, function(index, item) {               
+            htmlResults += '<div class="row" data-ytid="'+item.id.videoId+'" data-name="'+item.snippet.title+'"><div class="col-md-4"><img id="thumb" src="'+item.snippet.thumbnails.default.url+'"></div><div class="col-md-8">' + item.snippet.title +  '</div></div><br/>';                      
+	    })  		
+		$('.row.search').popover({
+			container:"body" ,
+			placement:"bottom" ,
+			content:htmlResults,
+			html: true
+		})
+		$('.row.search').popover('show');
+		$('.popover .row').click(function(){
+			$.post('/add.php',{ytId:$(this).data('ytid'),name:$(this).data('name')});
+			$('.row.search').popover('destroy');		
+		})
+
+
+	})  
+}
+
 
 
